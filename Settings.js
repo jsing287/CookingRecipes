@@ -5,7 +5,12 @@ import { StyleSheet, View, Modal, Alert, Text} from 'react-native';
 const Settings = () =>
 {
     return(
-        <Text>I am the settings menu</Text>
+
+        <View>
+            <Text>I am the settings menu</Text>
+
+        </View>
+        
 
     )
 
