@@ -2,7 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
+
+
 import UserProfile from './UserProfile'
+import Recipes from './Recipes.js'
 
 import { NavigationContainer } from '@react-navigation/native';
 import {
@@ -11,7 +14,10 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
+
+
 import { Button, Icon } from 'native-base';
+import { createStackNavigator } from '@react-navigation/stack';
 
 
 
@@ -30,12 +36,30 @@ function CustomDrawerContent(props) {
 }
 
 const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+
+
+function Profile()
+{
+  return(
+    <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false  }}>
+        <Stack.Screen
+          name="Home"
+          component={UserProfile} />
+         <Stack.Screen  name="Recipes" component={Recipes}/>
+     
+      </Stack.Navigator>
+
+  )
+
+}
+
 
 function MyDrawer() {
   return (
     <Drawer.Navigator drawerPosition="right" drawerStyle={styles.drawer} initialRouteName="Profile" drawerContent={props => <CustomDrawerContent {...props}/>}>
-      <Drawer.Screen name="Profile" component={UserProfile} options={{drawerIcon: ()=>(<Icon name="home" />)}}/>
-      <Drawer.Screen name="CookingCoin" component={UserProfile} options={{drawerIcon: ()=>(<Icon name="logo-usd"/>)}}/>
+      <Drawer.Screen name="Profile" component={Profile} options={{drawerIcon: ()=>(<Icon name="home" />)}}/>
+      
     
       
     </Drawer.Navigator>
@@ -46,6 +70,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <MyDrawer />
+      
+      
     </NavigationContainer>
   );
 }

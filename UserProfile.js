@@ -17,20 +17,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
+
+
 const UserProfile = () =>
 {
     const navigation = useNavigation();
 
+    
     let cookingCoin = 6;
-
-    const storeData = async (value) => {
-        try {
-          const jsonValue = JSON.stringify(value)
-          await AsyncStorage.setItem('@storage_Key', jsonValue)
-        } catch (e) {
-          // saving error
-        }
-      }
 
 
 
@@ -90,9 +84,11 @@ const UserProfile = () =>
 
             <Content contentContainerStyle={{flexDirection:"row", justifyContent:"space-between",}}>
                 <Text style={styles.recipeHeaderText}>Recipes</Text>
-                <Button transparent onPress={()=>{navigation.openDrawer();}} style={{height:75}}>
+                <Button transparent onPress={()=>{navigation.navigate("Recipes");}} style={{height:75}}>
                 <Icon name='add-circle' style={{fontSize:50}}/>
             </Button>
+
+
                 
             </Content>
        
