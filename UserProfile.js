@@ -7,7 +7,7 @@ import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Rig
 
 import { useNavigation } from '@react-navigation/native';
 
-import SideBar from './SideBar'
+
 
 import {DrawerItems} from '@react-navigation/native'
 

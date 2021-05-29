@@ -4,7 +4,6 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import UserProfile from './UserProfile'
 
-import Settings from './Settings'
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createDrawerNavigator,
