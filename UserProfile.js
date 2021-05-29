@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import SideBar from './SideBar'
 
-import { DrawerActions } from '@react-navigation/native';
+import {DrawerItems} from '@react-navigation/native'
 
 
 
@@ -34,6 +34,7 @@ const UserProfile = () =>
         </Header>
 
         <Content>
+
        
              
             
