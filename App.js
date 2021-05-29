@@ -16,26 +16,6 @@ import { Button, Icon } from 'native-base';
 
 
 
-
-
-
-
-function Feed() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Feed Screen</Text>
-    </View>
-  );
-}
-
-function Article() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Article Screen</Text>
-    </View>
-  );
-}
-
 function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
@@ -55,7 +35,7 @@ const Drawer = createDrawerNavigator();
 function MyDrawer() {
   return (
     <Drawer.Navigator drawerPosition="right" drawerStyle={styles.drawer} initialRouteName="Profile" drawerContent={props => <CustomDrawerContent {...props}/>}>
-      <Drawer.Screen name="Profile" component={UserProfile} options={{drawerIcon: ()=>(<Icon name="home"/>)}}/>
+      <Drawer.Screen name="Profile" component={UserProfile} options={{drawerIcon: ()=>(<Icon name="home" />)}}/>
       <Drawer.Screen name="CookingCoin" component={UserProfile} options={{drawerIcon: ()=>(<Icon name="logo-usd"/>)}}/>
     
       
@@ -76,7 +56,7 @@ const styles = StyleSheet.create(
   {
     drawer:
     {
-      marginVertical:50, borderRadius: 30, height:600
+      marginVertical:50, borderRadius: 30, height:600, 
 
     }
   }
