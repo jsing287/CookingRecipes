@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Modal, Alert} from 'react-native';
 
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Card, CardItem, Thumbnail } from 'native-base';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Card, CardItem, Thumbnail, List, ListItem } from 'native-base';
 
 
 import { useNavigation } from '@react-navigation/native';
@@ -47,6 +47,37 @@ const UserProfile = () =>
           console.error(error)
         }
       }
+
+      let test = [{name: "hello", ingredients: "hey"}, {name:"goodbye", ingredients:"asa"}];
+
+      function RecipeCards()
+      {
+        return test.map((item)=> 
+        {
+          return(
+              <Card style={{marginVertical:5}} >
+              <CardItem header>
+                  <Text>{item.name}</Text>
+              </CardItem>
+              <CardItem>
+                  <Body>
+                      <Text>{item.ingredients}</Text>
+                  </Body>
+              </CardItem>
+              <CardItem footer button onPress={()=>{navigation.navigate("Recipes")}}>
+                  <Text>Hello</Text>
+              </CardItem>
+          </Card>
+  
+          )
+  
+        } )
+
+      } 
+    
+     
+      
+       
 
    
 
@@ -113,16 +144,25 @@ const UserProfile = () =>
                 <Button transparent onPress={()=>{navigation.navigate("Recipes");}} style={{height:75}}>
                 <Icon name='add-circle' style={{fontSize:50}}/>
             </Button>
-
-            <Icon name='add-circle' style={{fontSize:50}} onPress={()=>{importData().then((data)=>{console.log()}).catch((e)=>{console.log(e)})}}/>
-
-
-                
             </Content>
+
+            <Icon name='add-circle' style={{fontSize:50}} onPress={()=>{importData().then((data)=>{console.log(data[0].minutes)}).catch((e)=>{console.log(e)})}}/>
+
+            <View>{RecipeCards()}</View>
+
+
+          
+           
+
+            
        
              
             
         </Content>
+
+        
+       
+        
 
       </Container>
        
