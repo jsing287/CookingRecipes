@@ -13,6 +13,9 @@ import {DrawerItems} from '@react-navigation/native'
 
 import ProfilePic from './ProfilePic.png'
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 const UserProfile = () =>
 {
@@ -20,8 +23,17 @@ const UserProfile = () =>
 
     let cookingCoin = 6;
 
+    const storeData = async (value) => {
+        try {
+          const jsonValue = JSON.stringify(value)
+          await AsyncStorage.setItem('@storage_Key', jsonValue)
+        } catch (e) {
+          // saving error
+        }
+      }
 
-    
+
+
 
     return(
 
@@ -41,9 +53,9 @@ const UserProfile = () =>
 
         <Content>
 
-            <Card>
+            <Card button onPress={()=>{alert("hey")}}>
 
-                <CardItem header button onPress={()=>{alert("hi")}}>
+                <CardItem header >
                     <Left>
                         <Thumbnail source={ProfilePic} />
                         <Body>
@@ -76,8 +88,13 @@ const UserProfile = () =>
                 </CardItem>
             </Card>
 
-
-
+            <Content contentContainerStyle={{flexDirection:"row", justifyContent:"space-between",}}>
+                <Text style={styles.recipeHeaderText}>Recipes</Text>
+                <Button transparent onPress={()=>{navigation.openDrawer();}} style={{height:75}}>
+                <Icon name='add-circle' style={{fontSize:50}}/>
+            </Button>
+                
+            </Content>
        
              
             
@@ -92,6 +109,25 @@ const UserProfile = () =>
 
 
 
+const styles = StyleSheet.create(
+    {
+        recipeHeaderText:
+        {
+            fontWeight:"bold",
+            fontSize:35,
+            marginLeft: 5,
+            marginTop:5,
+            color:"red"
+
+        },
+        recipeHeader:
+        {
+            flexDirection:"row"
+
+        }
+
+    }
+)
 
 
 
