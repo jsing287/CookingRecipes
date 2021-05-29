@@ -32,6 +32,16 @@ const saveData = async (recipe) => {
       alert('Failed to fetch the data from storage')
     }
   }
+
+  const clearAll = async () => {
+    try {
+      await AsyncStorage.clear()
+    } catch(e) {
+      // clear error
+    }
+  
+    console.log('Done.')
+  }
     
 
     
@@ -78,6 +88,8 @@ const Recipes = ()=>
 
                 <Icon name="enter" onPress={()=>{saveData(recipeInput)}} style={{marginLeft: 10}}/>
                 <Icon name="exit" onPress={()=>{let a = readData("Test1"); a.then((data)=>{console.log(data.name)})}} style={{marginLeft: 10}}/>
+                <Icon name="nuclear" onPress={()=>{clearAll()}} style={{marginLeft: 10}}/>
+                
 
                
 

@@ -26,6 +26,32 @@ const UserProfile = () =>
     
     let cookingCoin = 6;
 
+    const importData = async () => {
+
+        let object=[];
+        try {
+          const keys = await AsyncStorage.getAllKeys();
+          const result = await AsyncStorage.multiGet(keys);
+
+          for(let i = 0; i<result.length;i++)
+          {
+              object.push(JSON.parse(result[i][1]))
+
+          }
+          
+        
+         
+      
+          return object;
+        } catch (error) {
+          console.error(error)
+        }
+      }
+
+   
+
+    
+
 
 
 
@@ -87,6 +113,8 @@ const UserProfile = () =>
                 <Button transparent onPress={()=>{navigation.navigate("Recipes");}} style={{height:75}}>
                 <Icon name='add-circle' style={{fontSize:50}}/>
             </Button>
+
+            <Icon name='add-circle' style={{fontSize:50}} onPress={()=>{importData().then((data)=>{console.log()}).catch((e)=>{console.log(e)})}}/>
 
 
                 
