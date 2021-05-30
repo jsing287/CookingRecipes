@@ -10,15 +10,46 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-const saveData = async (recipe) => {
+const saveData = async (recipe, route) => {
 
-    console.log(recipe);
-    try {
-      await AsyncStorage.setItem(recipe.name, JSON.stringify(recipe))
-      alert('Data successfully saved')
-    } catch (e) {
-      alert('Failed to save the data to the storage')
+    if(route.params!=undefined)
+    {
+        const {item} = route.params
+        if(recipe.name!=JSON.parse(item[1]).name)
+        {
+            console.log(" different")
+            await AsyncStorage.removeItem(JSON.parse(item[1]).name);
+            try {
+                await AsyncStorage.setItem(recipe.name, JSON.stringify(recipe))
+                alert('Data successfully saved')
+              } catch (e) {
+                alert('Failed to save the data to the storage')
+              }
+        }
+        else{
+
+            console.log("same");
+            try {
+                await AsyncStorage.setItem(recipe.name, JSON.stringify(recipe))
+                alert('Data successfully saved')
+              } catch (e) {
+                alert('Failed to save the data to the storage')
+              }
+        }
+
     }
+    else{
+        console.log(" saving data starting fresh")
+        try {
+            await AsyncStorage.setItem(recipe.name, JSON.stringify(recipe))
+            alert('Data successfully saved')
+          } catch (e) {
+            alert('Failed to save the data to the storage')
+          }
+    }
+
+    
+   
   }
 
   const readData = async (name) => {
@@ -44,14 +75,39 @@ const saveData = async (recipe) => {
   }
     
 
+  
+
     
 
-const Recipes = ()=>
+const Recipes = ({route})=>
 {
     const navigation = useNavigation();
-
     let recipeInput  = {name:"", ingredients: "", instructions: "", minutes:"" }
-    let recipeData="";
+
+
+
+
+
+    if(route.params!=undefined)
+    {
+
+    const {item} = route.params;
+        
+        recipeInput.name = JSON.parse(item[1]).name;
+        recipeInput.ingredients = JSON.parse(item[1]).ingredients;
+        recipeInput.instructions= JSON.parse(item[1]).instructions;
+        recipeInput.minutes = JSON.parse(item[1]).minutes;
+
+
+    }
+    else{
+        console.log("starting fresh");
+        console.log(recipeInput);
+    }
+    
+    
+    
+    
    
     return(
 
@@ -68,26 +124,26 @@ const Recipes = ()=>
 
             <Content>
                 <Form>
-                    <Item floatingLabel>
+                    <Item stackedLabel>
                         <Label>Recipe Name</Label>
-                        <Input onChangeText={(text)=>{recipeInput.name=text}} />
+                        <Input placeholder={recipeInput.name} onChangeText={(text)=>{recipeInput.name=text}} />
                     </Item>
-                    <Item floatingLabel>
+                    <Item stackedLabel>
                         <Label>Ingredients</Label>
-                        <Input onChangeText={(text)=>{recipeInput.ingredients=text}}/>
+                        <Input placeholder={recipeInput.ingredients} onChangeText={(text)=>{recipeInput.ingredients=text}}/>
                     </Item>
-                    <Item floatingLabel>
+                    <Item stackedLabel>
                         <Label>Instructions</Label>
-                        <Input onChangeText={(text)=>{recipeInput.instructions=text}}/>
+                        <Input placeholder={recipeInput.instructions} onChangeText={(text)=>{recipeInput.instructions=text}}/>
                     </Item>
-                    <Item floatingLabel>
+                    <Item stackedLabel>
                         <Label>Minutes to Cook</Label>
-                        <Input onChangeText={(text)=>{recipeInput.minutes=text}}/>
+                        <Input placeholder={recipeInput.minutes} onChangeText={(text)=>{recipeInput.minutes=text}}/>
                     </Item>
                 </Form>
 
-                <Icon name="enter" onPress={()=>{saveData(recipeInput)}} style={{marginLeft: 10}}/>
-                <Icon name="exit" onPress={()=>{let a = readData("Test1"); a.then((data)=>{console.log(data.name)})}} style={{marginLeft: 10}}/>
+                <Icon name="enter" onPress={()=>{saveData(recipeInput,route)}} style={{marginLeft: 10}}/>
+             
                 <Icon name="nuclear" onPress={()=>{clearAll()}} style={{marginLeft: 10}}/>
                 
 

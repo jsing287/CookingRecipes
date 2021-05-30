@@ -9,12 +9,13 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-import {DrawerItems} from '@react-navigation/native'
+import {useIsFocused} from '@react-navigation/native'
 
 import ProfilePic from './ProfilePic.png'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { render } from 'react-dom';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
@@ -29,25 +30,24 @@ const UserProfile = () =>
 
     const [recipes, setRecipes] = useState([]);
     const[cardData, setCardData] = useState([]);
-
-    function Apple(result)
-    {
-        let temp =[]
-        for(let i = 0; i<result.length;i++)
-        {
-            temp.push(JSON.parse(result[i][1]))
-
-        }
-
-        return temp;
-       
-        
-
-    }
-
-   
-        
+    const[heart, setHeart] = useState("heart");
     
+    const isFocused = useIsFocused()
+
+    useEffect(() => {
+        async function fetchRecipes()
+            {
+                const data = await AsyncStorage.getAllKeys();
+                const rec = await AsyncStorage.multiGet(data);
+                setRecipes(rec);
+                console.log("ran");
+                
+
+            }
+
+            fetchRecipes();
+    } , [isFocused])
+
 
     
 
@@ -70,27 +70,7 @@ const UserProfile = () =>
 
     )
 
-    
-
-    
-
- 
-
-    
-
-
-   
   
-
-
-     
-   
-      
-       
-
-   
-
-    
 
 
 
@@ -113,7 +93,7 @@ const UserProfile = () =>
 
         <Content>
 
-            <Card button onPress={()=>{alert("hey")}}>
+            <Card>
 
                 <CardItem header >
                     <Left>
@@ -155,22 +135,47 @@ const UserProfile = () =>
             </Button>
             </Content>
 
-            <Icon name='add-circle' style={{fontSize:50}} onPress={()=>{importData().then((data)=>{console.log(data[0].minutes)}).catch((e)=>{console.log(e)})}}/>
+           
             <View >
                 {recipes.map((item)=>{
                     return (
                     // <Text key={item[0]}>{JSON.parse(item[1]).name}</Text>
-                    <Card key={item[0]} style={{marginTop: 10}}>
-                        <CardItem header>
+                    <Card key={item[0]} style={{marginTop: 10, borderColor:"red", width:400}} >
+                        <CardItem header bordered>
                             <Text>{JSON.parse(item[1]).name}</Text>
+                            <Body>
+
+                            </Body>
+                            <Right>
+                                <Button bordered danger onPress={()=>{alert("hello")}} >
+                                <Icon active name="heart" style={{color: "red", }}  />
+
+                                </Button>
+                            
+                            </Right>
                         </CardItem>
-                        <CardItem>
+                        <CardItem bordered>
                             <Body>
                                 <Text>{JSON.parse(item[1]).ingredients}</Text>
                             </Body>
                         </CardItem>
-                        <CardItem footer>
+                        <CardItem bordered>
+                            <Body>
+                                <Text>{JSON.parse(item[1]).instructions}</Text>
+                            </Body>
+                        </CardItem>
+                        <CardItem footer bordered>
+                            <Left>
                             <Text>{JSON.parse(item[1]).minutes}</Text>
+                            </Left>
+                            
+                            <Body>
+                            <Button warning onPress={()=>{navigation.navigate("Recipes", {item})}}><Text>EDIT</Text></Button>
+                            </Body>
+                            <Right>
+                            <Button danger><Text>DELETE</Text></Button>
+                            </Right>
+                            
                         </CardItem>
                     </Card>
                     
@@ -181,19 +186,7 @@ const UserProfile = () =>
                 
                 </View>
             
-            
-            
-           
-            
-           
-           
-
-
-         
-
-          
-           
-
+        
             
        
              
