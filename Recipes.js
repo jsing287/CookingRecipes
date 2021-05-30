@@ -52,17 +52,7 @@ const saveData = async (recipe, route) => {
    
   }
 
-  const readData = async (name) => {
-    try {
-      const recipe = await AsyncStorage.getItem(name)
-      return JSON.parse(recipe);
-      
-  
-      }
-     catch (e) {
-      alert('Failed to fetch the data from storage')
-    }
-  }
+
 
   const clearAll = async () => {
     try {
@@ -82,7 +72,7 @@ const saveData = async (recipe, route) => {
 const Recipes = ({route})=>
 {
     const navigation = useNavigation();
-    let recipeInput  = {name:"", ingredients: "", instructions: "", minutes:"" }
+    let recipeInput  = {name:"", ingredients: "", instructions: "", minutes:"", price:"", favourite: false, iconName:"heart-outline" }
 
 
 
@@ -97,12 +87,15 @@ const Recipes = ({route})=>
         recipeInput.ingredients = JSON.parse(item[1]).ingredients;
         recipeInput.instructions= JSON.parse(item[1]).instructions;
         recipeInput.minutes = JSON.parse(item[1]).minutes;
+        recipeInput.price= JSON.parse(item[1]).price;
+        recipeInput.favourite = JSON.parse(item[1]).favourite;
+        recipeInput.iconName = JSON.parse(item[1]).iconName;
 
 
     }
     else{
         console.log("starting fresh");
-        console.log(recipeInput);
+        
     }
     
     
@@ -140,11 +133,30 @@ const Recipes = ({route})=>
                         <Label>Minutes to Cook</Label>
                         <Input placeholder={recipeInput.minutes} onChangeText={(text)=>{recipeInput.minutes=text}}/>
                     </Item>
+                    <Item stackedLabel>
+                        <Label>Price</Label>
+                        <Input placeholder={recipeInput.price} onChangeText={(text)=>{recipeInput.price=text}}/>
+                    </Item>
                 </Form>
 
-                <Icon name="enter" onPress={()=>{saveData(recipeInput,route)}} style={{marginLeft: 10}}/>
+                <Button style={{marginTop: 10}} onPress={()=>{saveData(recipeInput,route)}}>
+                    <Text>SAVE</Text>
+                <Icon name="enter"  />
+
+                </Button>
+
+                <Button danger style={{marginTop: 10}} onPress={()=>{clearAll()}}>
+
+                    <Text>DELETE ALL</Text>
+
+                <Icon name="nuclear"  />
+
+                </Button>
+
+
+                
              
-                <Icon name="nuclear" onPress={()=>{clearAll()}} style={{marginLeft: 10}}/>
+                
                 
 
                
