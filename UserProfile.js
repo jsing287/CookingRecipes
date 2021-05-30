@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Modal, Alert} from 'react-native';
+import { StyleSheet, View, Modal, Alert, ActionSheetIOS} from 'react-native';
 
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Card, CardItem, Thumbnail, List, ListItem } from 'native-base';
 
@@ -31,8 +31,43 @@ const UserProfile = () =>
     const [recipes, setRecipes] = useState([]);
     const[cardData, setCardData] = useState([]);
     const[heart, setHeart] = useState("heart");
+    const [load, setLoad] = useState(true);
     
     const isFocused = useIsFocused()
+
+
+    const deleteItem = async (name) => {
+        try {
+
+            await AsyncStorage.removeItem(name);
+            setLoad(!load);
+
+          }
+         catch (e) {
+          alert('Failed to delete item')
+        }
+      }
+
+
+      const ActionButton = (recipeName)=>
+      {
+        ActionSheetIOS.showActionSheetWithOptions(
+            {
+              options: ["Cancel", "Delete"],
+              destructiveButtonIndex: 1,
+              cancelButtonIndex: 0,
+              userInterfaceStyle: 'dark',
+              title: "Remove Recipe"
+            },
+            buttonIndex => {
+              if (buttonIndex === 1) {
+                  deleteItem(recipeName);
+
+              
+            }
+        }
+          );
+      }
 
     useEffect(() => {
         async function fetchRecipes()
@@ -46,7 +81,7 @@ const UserProfile = () =>
             }
 
             fetchRecipes();
-    } , [isFocused])
+    } , [isFocused,load])
 
 
     
@@ -173,7 +208,7 @@ const UserProfile = () =>
                             <Button warning onPress={()=>{navigation.navigate("Recipes", {item})}}><Text>EDIT</Text></Button>
                             </Body>
                             <Right>
-                            <Button danger><Text>DELETE</Text></Button>
+                            <Button danger onPress={()=>{ActionButton(JSON.parse(item[1]).name)}}><Text>DELETE</Text></Button>
                             </Right>
                             
                         </CardItem>
