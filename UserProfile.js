@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Modal, Alert} from 'react-native';
 
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Card, CardItem, Thumbnail, List, ListItem } from 'native-base';
@@ -14,6 +14,7 @@ import {DrawerItems} from '@react-navigation/native'
 import ProfilePic from './ProfilePic.png'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { render } from 'react-dom';
 
 
 
@@ -26,56 +27,64 @@ const UserProfile = () =>
     
     let cookingCoin = 6;
 
-    const importData = async () => {
+    const [recipes, setRecipes] = useState([]);
+    const[cardData, setCardData] = useState([]);
 
-        let object=[];
-        try {
-          const keys = await AsyncStorage.getAllKeys();
-          const result = await AsyncStorage.multiGet(keys);
-
-          for(let i = 0; i<result.length;i++)
-          {
-              object.push(JSON.parse(result[i][1]))
-
-          }
-          
-        
-         
-      
-          return object;
-        } catch (error) {
-          console.error(error)
-        }
-      }
-
-      let test = [{name: "hello", ingredients: "hey"}, {name:"goodbye", ingredients:"asa"}];
-
-      function RecipeCards()
-      {
-        return test.map((item)=> 
+    function Apple(result)
+    {
+        let temp =[]
+        for(let i = 0; i<result.length;i++)
         {
-          return(
-              <Card style={{marginVertical:5}} >
-              <CardItem header>
-                  <Text>{item.name}</Text>
-              </CardItem>
-              <CardItem>
-                  <Body>
-                      <Text>{item.ingredients}</Text>
-                  </Body>
-              </CardItem>
-              <CardItem footer button onPress={()=>{navigation.navigate("Recipes")}}>
-                  <Text>Hello</Text>
-              </CardItem>
-          </Card>
-  
-          )
-  
-        } )
+            temp.push(JSON.parse(result[i][1]))
 
-      } 
+        }
+
+        return temp;
+       
+        
+
+    }
+
+   
+        
     
+
+    
+
+    useEffect(
+        ()=>
+        {
+            async function fetchRecipes()
+            {
+                const data = await AsyncStorage.getAllKeys();
+                const rec = await AsyncStorage.multiGet(data);
+                setRecipes(rec);
+                
+
+            }
+
+            fetchRecipes();
+               
+        },[]
+
+
+    )
+
+    
+
+    
+
+ 
+
+    
+
+
+   
+  
+
+
      
+   
       
        
 
@@ -147,9 +156,40 @@ const UserProfile = () =>
             </Content>
 
             <Icon name='add-circle' style={{fontSize:50}} onPress={()=>{importData().then((data)=>{console.log(data[0].minutes)}).catch((e)=>{console.log(e)})}}/>
+            <View >
+                {recipes.map((item)=>{
+                    return (
+                    // <Text key={item[0]}>{JSON.parse(item[1]).name}</Text>
+                    <Card key={item[0]} style={{marginTop: 10}}>
+                        <CardItem header>
+                            <Text>{JSON.parse(item[1]).name}</Text>
+                        </CardItem>
+                        <CardItem>
+                            <Body>
+                                <Text>{JSON.parse(item[1]).ingredients}</Text>
+                            </Body>
+                        </CardItem>
+                        <CardItem footer>
+                            <Text>{JSON.parse(item[1]).minutes}</Text>
+                        </CardItem>
+                    </Card>
+                    
+                    )
+                    
+                    
+                    })}
+                
+                </View>
+            
+            
+            
+           
+            
+           
+           
 
-            <View>{RecipeCards()}</View>
 
+         
 
           
            
