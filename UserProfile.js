@@ -287,41 +287,34 @@ const UserProfile = () =>
                     <Icon active name="thumbs-up" style={{color: "blue"}} />
                         <Text>1453 Likes</Text>
                     </Left>
+                   
+                    
+                    <Right >
+                         <Button transparent >
+                             <Icon active name="logo-usd" style={{color:"green"}} />
+                             <Text>{cookingCoin} Coooking Coins</Text>
+                        </Button>
                     
                     
-                    <Right style={{alignContents:"row-reverse"}}>
-                    <Text>{cookingCoin} Cooking Coins</Text>
-                    <Icon active name="logo-usd" style={{color: "green"}} />
-                        
-
                     </Right>
 
                 </CardItem>
             </Card>
 
-            <Content contentContainerStyle={{flexDirection:"row", justifyContent:"space-between",}}>
-                <Text style={styles.recipeHeaderText}>Recipes</Text>
-                <Button transparent onPress={()=>{navigation.navigate("Recipes");}} style={{height:75}}>
-                <Icon type="Entypo" name='circle-with-plus' style={{fontSize:50, color:"white"}}/>
-            </Button>
-            </Content>
-
-            <View style={styles.container}>
-    
-     
-    </View>
-
-            
-
            
-            <View style={{alignItems:"center"}} >
+        
 
 
                
 
                 
 
-                <Text style={{fontWeight:"bold"}}>Favourites</Text>
+
+                <View style={{alignItems:"center"}}>
+
+                
+
+                <Text style={{fontWeight:"bold", fontSize:50, color:"#ff4d94"}}>Favourites</Text>
 
                 <ScrollView horizontal={true}>
                     {
@@ -347,6 +340,15 @@ const UserProfile = () =>
 
                     })}
                 </ScrollView>
+
+                </View>
+
+                <Content contentContainerStyle={{flexDirection:"row", justifyContent:"space-between",}}>
+                <Text style={styles.recipeHeaderText}>Recipes</Text>
+                <Button transparent onPress={()=>{navigation.navigate("Recipes");}} style={{height:75}}>
+                <Icon type="Entypo" name='circle-with-plus' style={{fontSize:50, color:"white"}}/>
+            </Button>
+            </Content>
                
 
 
@@ -381,10 +383,20 @@ const UserProfile = () =>
                             </Body>
                         </CardItem>
                         <CardItem bordered>
-                            <Body style={{alignItems:"row"}}>
-                                <Icon name="logo-usd"/>
-                                <Text>Cooking Coins: {JSON.parse(item[1]).price}</Text>
+                           
+                        <Left>
+                            <Icon name="logo-usd" style={{color:"green"}}/>
+                            <Body>
+                            <Text>Cooking Coins: {JSON.parse(item[1]).price}</Text>
+                            
                             </Body>
+                        </Left>
+                            
+
+                            
+                            
+                               
+                           
                         </CardItem>
                         <CardItem footer bordered style={{borderRadius:10}}>
                             <Left>
@@ -406,7 +418,7 @@ const UserProfile = () =>
                     
                     })}
                 
-                </View>
+             
             
         
             
